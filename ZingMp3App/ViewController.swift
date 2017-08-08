@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import Foundation
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class ViewController: UIViewController {
     @IBOutlet weak var txtSearch: UITextField!
     @IBOutlet weak var lblSongName: UILabel!
     @IBOutlet weak var lblArtist: UILabel!
@@ -24,24 +24,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     var player : AVAudioPlayer!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
         txtSearch.delegate = self
+        sldVolume.setThumbImage(#imageLiteral(resourceName: "thumbs"), for: .normal)
+        sldVolume.setThumbImage(#imageLiteral(resourceName: "thumbss"), for: .highlighted)
     }
 
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
-        textField.textAlignment = NSTextAlignment.left
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField.text == "" {
-            textField.textAlignment = NSTextAlignment.center
-        }
-    }
-    
     func searchMusic(key : String){
         let keyDidEncode = key.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
         let keyUrl :NSURL = NSURL(string: "http://sonvuhong.com/getid.php?keySearch=.\(keyDidEncode)")!
@@ -204,5 +194,18 @@ extension UIViewController {
     
     func dismissKeyboard() {
         view.endEditing(true)
+    }
+}
+
+extension ViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
+        textField.textAlignment = NSTextAlignment.left
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.text == "" {
+            textField.textAlignment = NSTextAlignment.center
+        }
     }
 }

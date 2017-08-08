@@ -15,7 +15,6 @@
 		33CEDB761F3454A300DAAAD5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33CEDB741F3454A300DAAAD5 /* LaunchScreen.storyboard */; };
 		33CEDB811F3454A300DAAAD5 /* ZingMp3AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CEDB801F3454A300DAAAD5 /* ZingMp3AppTests.swift */; };
 		33CEDB8C1F3454A300DAAAD5 /* ZingMp3AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CEDB8B1F3454A300DAAAD5 /* ZingMp3AppUITests.swift */; };
-		33ECE61C1F399410007D04D4 /* DesignableSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ECE61B1F399410007D04D4 /* DesignableSlider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +49,6 @@
 		33CEDB871F3454A300DAAAD5 /* ZingMp3AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZingMp3AppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		33CEDB8B1F3454A300DAAAD5 /* ZingMp3AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZingMp3AppUITests.swift; sourceTree = "<group>"; };
 		33CEDB8D1F3454A300DAAAD5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		33ECE61B1F399410007D04D4 /* DesignableSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DesignableSlider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,7 +106,6 @@
 				33CEDB741F3454A300DAAAD5 /* LaunchScreen.storyboard */,
 				33CEDB771F3454A300DAAAD5 /* Info.plist */,
 				3322A0821F385C6F001EE471 /* DeveloperInformation.swift */,
-				33ECE61B1F399410007D04D4 /* DesignableSlider.swift */,
 			);
 			path = ZingMp3App;
 			sourceTree = "<group>";
@@ -268,7 +265,6 @@
 			files = (
 				33CEDB6E1F3454A300DAAAD5 /* ViewController.swift in Sources */,
 				3322A0831F385C6F001EE471 /* DeveloperInformation.swift in Sources */,
-				33ECE61C1F399410007D04D4 /* DesignableSlider.swift in Sources */,
 				33CEDB6C1F3454A300DAAAD5 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

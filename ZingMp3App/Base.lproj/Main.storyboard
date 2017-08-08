@@ -29,7 +29,7 @@
                                     <constraint firstAttribute="width" secondItem="evQ-xn-LWZ" secondAttribute="height" multiplier="1.02:1" id="M1E-qv-4Fk"/>
                                 </constraints>
                             </imageView>
-                            <slider hidden="YES" autoresizesSubviews="NO" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="2" translatesAutoresizingMaskIntoConstraints="NO" id="d1Y-G4-eNP" customClass="DesignableSlider" customModule="ZingMp3App" customModuleProvider="target">
+                            <slider hidden="YES" autoresizesSubviews="NO" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="2" translatesAutoresizingMaskIntoConstraints="NO" id="d1Y-G4-eNP">
                                 <rect key="frame" x="13" y="122" width="349" height="23.5"/>
                                 <color key="minimumTrackTintColor" red="0.95121139287948608" green="0.49164074659347534" blue="0.019203592091798782" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <userDefinedRuntimeAttributes>
