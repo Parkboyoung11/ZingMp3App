@@ -32,7 +32,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.text = ""
+        textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
+        textField.textAlignment = NSTextAlignment.left
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.text == "" {
+            textField.textAlignment = NSTextAlignment.center
+        }
     }
     
     func searchMusic(key : String){
@@ -43,6 +50,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
             do{
                 let keyOld:String = try NSString(contentsOf: keyUrl as URL, encoding: String.Encoding.utf8.rawValue) as String
                 let key = keyOld.substring(to: keyOld.index(keyOld.startIndex, offsetBy: 8))
+                if key == "0\" title" {
+                    DispatchQueue.main.async {
+                        self.loadToDefault()
+                        self.lblLoading.isHidden = true
+                    }
+                    return
+                }
                 let endUrl = "{\"id\":\"\(key)\"}"
                 let endUrlEncoded = endUrl.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
                 let url:URL = NSURL(string: "http://api.mp3.zing.vn/api/mobile/song/getsonginfo?requestdata=\(endUrlEncoded)")! as URL
@@ -50,6 +64,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     if error == nil {
                         do{
                             let result = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: Any]
+                            //print(result)
                             let arrResult = result["source"] as! [String: Any]
                             let cover = result["thumbnail"] as! String
                             let name = result["title"] as! String
