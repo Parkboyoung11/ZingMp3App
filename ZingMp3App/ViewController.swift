@@ -10,8 +10,8 @@ import UIKit
 import AVFoundation
 import Foundation
 
-class ViewController: UIViewController {
-    @IBOutlet weak var txtSearch: UITextField!
+class ViewController: UIViewController, UISearchBarDelegate {
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var lblSongName: UILabel!
     @IBOutlet weak var lblArtist: UILabel!
     @IBOutlet weak var sldVolume: UISlider!
@@ -27,7 +27,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
-        txtSearch.delegate = self
+        searchBar.delegate = self
         sldVolume.setThumbImage(#imageLiteral(resourceName: "thumbs"), for: .normal)
         sldVolume.setThumbImage(#imageLiteral(resourceName: "thumbss"), for: .highlighted)
     }
@@ -158,12 +158,13 @@ class ViewController: UIViewController {
         return minStr
     }
     
-    @IBAction func btnSearchDid(_ sender: UIButton) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         loadToDefault()
-        if txtSearch.text != "" {
+        if searchBar.text != "" {
             lblLoading.isHidden = false
-            searchMusic(key: txtSearch.text!)
+            searchMusic(key: searchBar.text!)
         }
+        searchBar.resignFirstResponder()
     }
     
     @IBAction func sldVolumeDid(_ sender: UISlider) {
@@ -197,15 +198,3 @@ extension UIViewController {
     }
 }
 
-extension ViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
-        textField.textAlignment = NSTextAlignment.left
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField.text == "" {
-            textField.textAlignment = NSTextAlignment.center
-        }
-    }
-}
