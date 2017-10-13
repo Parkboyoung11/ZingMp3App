@@ -27,6 +27,7 @@ class ViewController: UIViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
+        searchBar.keyboardType = UIKeyboardType.default
         searchBar.delegate = self
         sldVolume.setThumbImage(#imageLiteral(resourceName: "thumbs"), for: .normal)
         sldVolume.setThumbImage(#imageLiteral(resourceName: "thumbss"), for: .highlighted)
@@ -39,7 +40,12 @@ class ViewController: UIViewController, UISearchBarDelegate {
         queue.async {
             do{
                 let keyOld:String = try NSString(contentsOf: keyUrl as URL, encoding: String.Encoding.utf8.rawValue) as String
-                let key = keyOld.substring(to: keyOld.index(keyOld.startIndex, offsetBy: 8))
+                let key = keyOld.substring(to: keyOld.index(keyOld.startIndex, offsetBy: 33))
+                
+                let start = keyOld.index(keyOld.startIndex, offsetBy: 33)
+                let end = keyOld.index(keyOld.endIndex, offsetBy: -4)
+                let range = start..<end
+                let coverImageLink = keyOld.substring(with: range)
                 if key == "0\" title" {
                     DispatchQueue.main.async {
                         self.loadToDefault()
@@ -47,49 +53,44 @@ class ViewController: UIViewController, UISearchBarDelegate {
                     }
                     return
                 }
-                let endUrl = "{\"id\":\"\(key)\"}"
-                let endUrlEncoded = endUrl.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
-                let url:URL = NSURL(string: "http://api.mp3.zing.vn/api/mobile/song/getsonginfo?requestdata=\(endUrlEncoded)")! as URL
+                let url : URL = NSURL(string: "http://mp3.zing.vn/html5xml/song-xml/\(key)")! as URL
                 let task = URLSession.shared.dataTask(with: url) { (data, respone, error) in
                     if error == nil {
                         do{
-                            let result = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: Any]
-                            //print(result)
-                            let arrResult = result["source"] as! [String: Any]
-                            let cover = result["thumbnail"] as! String
-                            let name = result["title"] as! String
+                            let results = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: Any]
+                            let resultss = results["data"] as! [[String: Any]]
+                            let result = resultss[0]
+                            let name = result["name"] as! String
+                            let arrResult = result["source_list"] as! [String]
                             let artist = result["artist"] as! String
+                            let link = "http://\(arrResult[1])"
                             let queue2 = DispatchQueue(label: "queue2")
-                            if let link = arrResult["128"]{
-                                print(link as! String)
-                                queue2.async {
-                                    let url:URL = URL(string: link as! String)!
+                            queue2.async {
+                                let url:URL = URL(string: link)!
+                                do{
+                                    let data = try Data(contentsOf: url)
                                     do{
-                                        let data = try Data(contentsOf: url)
-                                        do{
-                                            self.player = try AVAudioPlayer(data: data)
-                                            self.player.numberOfLoops = -1
-                                            if self.player.play() {
-                                                DispatchQueue.main.async {
-                                                    self.lblLoading.isHidden = true
-                                                    self.btnPause.isHidden = false
-                                                    self.pgrTime.isHidden = false
-                                                    self.player.volume = 1
-                                                    self.sldVolume.isHidden = false
-                                                    self.updateSong()
-                                                    self.lblCurrentTime.isHidden = false
-                                                }
+                                        self.player = try AVAudioPlayer(data: data)
+                                        self.player.numberOfLoops = -1
+                                        if self.player.play() {
+                                            DispatchQueue.main.async {
+                                                self.lblLoading.isHidden = true
+                                                self.btnPause.isHidden = false
+                                                self.pgrTime.isHidden = false
+                                                self.player.volume = self.sldVolume.value
+                                                self.sldVolume.isHidden = false
+                                                self.updateSong()
+                                                self.lblCurrentTime.isHidden = false
                                             }
-                                        }catch {}
+                                        }
                                     }catch {}
-                                }
-                            } else{
-                                print("Link Error!")
+                                }catch {}
                             }
                             
                             let queue3 = DispatchQueue(label: "queue3")
                             queue3.async {
-                                let imgUrl:URL = URL(string: "http://zmp3-photo-fbcrawler-td.zadn.vn/thumb/600_600/\(cover)")!
+                                let imgUrl:URL = URL(string: coverImageLink)!
+//                                let imgUrl:URL = URL(string: "https://zmp3-photo-td.zadn.vn/thumb/240_240/avatars/f/b/fb90de160414db440736ee815f22c238_1499918124.jpg")!
                                 do{
                                     let data = try Data(contentsOf: imgUrl)
                                     DispatchQueue.main.async {
